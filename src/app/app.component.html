@@ -1,1 +1,16 @@
-<router-outlet></router-outlet>
+<header>
+	<a routerLink="/">
+		<img class="home_button" src="../favicon.ico">
+	</a>
+	<h1> {{title}} </h1>
+</header>
+
+<mat-spinner *ngIf="!ready"></mat-spinner>
+<main *ngIf="ready">
+	<div>
+		<button *ngFor="let button of buttons"  mat-raised-button routerLink="{{button.route}}">
+			{{button.description}}
+		</button>
+	</div>
+	<router-outlet> </router-outlet>
+</main>

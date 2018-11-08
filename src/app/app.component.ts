@@ -1,10 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
-	styles: []
+	styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-	title = 'webapp';
+export class AppComponent implements OnInit {
+
+	title = 'MyBuzzNight';
+	ready = false;
+
+	async ngOnInit() {
+	// 	await this.zetapush_service.connect();
+	// 	await this.zetapush_service.listen();
+		this.ready = true;
+	}
 }

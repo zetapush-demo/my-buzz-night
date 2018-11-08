@@ -1,0 +1,116 @@
+@import '~@angular/material/theming';
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue.
+
+$primary-map: (
+	50 : #e3ecef,
+	100 : #b9cfd7,
+	200 : #8aafbc,
+	300 : #5b8ea1,
+	400 : #37768d,
+	500 : #145e79,
+	600 : #125671,
+	700 : #0e4c66,
+	800 : #0b425c,
+	900 : #063149,
+	A100 : #7ecaff,
+	A200 : #4bb5ff,
+	A400 : #18a0ff,
+	A700 : #0095fd,
+	contrast: (
+		50 : #000000,
+		100 : #000000,
+		200 : #000000,
+		300 : #000000,
+		400 : #ffffff,
+		500 : #ffffff,
+		600 : #ffffff,
+		700 : #ffffff,
+		800 : #ffffff,
+		900 : #ffffff,
+		A100 : #000000,
+		A200 : #000000,
+		A400 : #000000,
+		A700 : #ffffff
+	)
+);
+
+$accent-map: (
+	50 : #e0f7fd,
+	100 : #b3ecfb,
+	200 : #80e0f9,
+	300 : #4dd3f6,
+	400 : #26c9f4,
+	500 : #00c0f2,
+	600 : #00baf0,
+	700 : #00b2ee,
+	800 : #00aaec,
+	900 : #009ce8,
+	A100 : #ffffff,
+	A200 : #dcf2ff,
+	A400 : #a9dfff,
+	A700 : #90d6ff,
+	contrast: (
+		50 : #fff,
+		100 : #fff,
+		200 : #fff,
+		300 : #fff,
+		400 : #fff,
+		500 : #fff,
+		600 : #fff,
+		700 : #fff,
+		800 : #fff,
+		900 : #fff,
+		A100 : #fff,
+		A200 : #fff,
+		A400 : #fff,
+		A700 : #fff,
+	)
+);
+
+$warn-map: (
+	50 : #fdebe8,
+	100 : #fbcec5,
+	200 : #f8ad9f,
+	300 : #f58c78,
+	400 : #f3745b,
+	500 : #f15b3e,
+	600 : #ef5338,
+	700 : #ed4930,
+	800 : #eb4028,
+	900 : #e72f1b,
+	A100 : #ffffff,
+	A200 : #ffe9e7,
+	A400 : #ffbab4,
+	A700 : #ffa39b,
+	contrast: (
+		50 : #000000,
+		100 : #000000,
+		200 : #000000,
+		300 : #000000,
+		400 : #000000,
+		500 : #000000,
+		600 : #ffffff,
+		700 : #ffffff,
+		800 : #ffffff,
+		900 : #ffffff,
+		A100 : #000000,
+		A200 : #000000,
+		A400 : #000000,
+		A700 : #000000,
+	)
+);
+
+
+$primary: mat-palette($primary-map);
+$accent: mat-palette($accent-map);
+$warn: mat-palette($warn-map);
+// Create the theme object (a Sass map containing all of the palettes).
+$theme: mat-light-theme($primary, $accent, $warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($theme);

@@ -1,0 +1,46 @@
+@import '~src/variables.scss';
+
+header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: $header_height;
+	z-index: 10;
+	background: white;
+	box-shadow: 0 7px 8px rgba(0, 0, 0, 0.12);
+}
+
+header::after {
+	background: linear-gradient(0.25turn, #80cd3d 0%, #1db6f1 25%, #f1452a 50%, #fbc81e 75%);
+	content: '';
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: $header_height;
+	height: 4px;
+}
+
+.home_button {
+	padding: 10px 0 0 10px;
+	height: 80%;
+}
+
+h1 {
+	text-align: center;
+	margin-top: -60px;
+}
+
+mat-spinner {
+	position: absolute;
+	top: 40%;
+	left: calc(50% - 50px);
+}
+
+main {
+	margin-top: $header_height;
+	height: calc(100% - #{$header_height});
+	overflow: auto;
+	width: 100%;
+	position: absolute;
+}

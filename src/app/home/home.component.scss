@@ -1,0 +1,17 @@
+@import '../../variables.scss';
+
+div {
+	display: flex;
+	align-items: center;
+	height: 100%;
+	button {
+		flex: 1;
+		height: 50%;
+		margin: 48px;
+		border-radius: 4px;
+		background: $primary;
+		color: white;
+		font-size: 30px;
+		white-space: normal;
+	}
+};
