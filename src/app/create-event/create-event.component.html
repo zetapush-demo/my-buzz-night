@@ -1,3 +1,52 @@
-<p>
-  create-event works!
-</p>
+<mat-horizontal-stepper [linear]="false" #stepper>
+
+	<mat-step [stepControl]="eventFormGroup">
+		<form [formGroup]="eventFormGroup">
+			<ng-template matStepLabel> Fill out yout event name </ng-template>
+			<mat-form-field>
+				<input matInput placeholder="Event name" formControlName="eventCtrl" required>
+			</mat-form-field>
+			<div>
+				<button mat-button matStepperNext> Next </button>
+			</div>
+		</form>
+	</mat-step>
+
+	<mat-step [stepControl]="addressFormGroup">
+		<form [formGroup]="addressFormGroup">
+			<ng-template matStepLabel> Fill out your address </ng-template>
+			<mat-form-field>
+				<input matInput placeholder="Address" formControlName="addressCtrl" required>
+			</mat-form-field>
+			<div>
+				<button mat-button matStepperPrevious> Back </button>
+				<button mat-button matStepperNext> Next </button>
+			</div>
+		</form>
+	</mat-step>
+
+	<mat-step [stepControl]="dateFormGroup">
+		<form [formGroup]="dateFormGroup">
+			<ng-template matStepLabel> Choose a date </ng-template>
+			<mat-form-field>
+				<input matInput [matDatepicker]="picker" placeholder="Choose a date">
+				<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+				<mat-datepicker #picker></mat-datepicker>
+			</mat-form-field>
+			<div>
+				<button mat-button matStepperPrevious> Back </button>
+				<button mat-button matStepperNext> Next </button>
+			</div>
+		</form>
+	</mat-step>
+
+	<mat-step>
+		<ng-template matStepLabel> Done </ng-template>
+		You are now done.
+		<div>
+			<button mat-button matStepperPrevious> Back </button>
+			<button mat-button (click)="foo()"> Create </button>
+		</div>
+	</mat-step>
+
+</mat-horizontal-stepper>

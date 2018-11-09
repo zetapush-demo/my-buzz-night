@@ -7,10 +7,5 @@
 
 <mat-spinner *ngIf="!ready"></mat-spinner>
 <main *ngIf="ready">
-	<div>
-		<button *ngFor="let button of buttons"  mat-raised-button routerLink="{{button.route}}">
-			{{button.description}}
-		</button>
-	</div>
 	<router-outlet> </router-outlet>
 </main>

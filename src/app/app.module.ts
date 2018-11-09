@@ -1,8 +1,13 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule} from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
-// import { MatIconModule } from '@angular/material/icon';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,9 +20,14 @@ import { HomeComponent } from './home/home.component';
 	imports: [
 		AppRoutingModule,
 		BrowserModule,
+		BrowserAnimationsModule,
+		ReactiveFormsModule,
 		MatProgressSpinnerModule,
+		MatStepperModule,
+		MatInputModule,
 		MatButtonModule,
-		// MatIconModule
+		MatDatepickerModule,
+		MatNativeDateModule
 	],
 	declarations: [
 		AppComponent,
