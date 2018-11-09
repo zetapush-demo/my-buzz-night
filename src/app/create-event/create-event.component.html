@@ -2,7 +2,7 @@
 
 	<mat-step [stepControl]="eventFormGroup">
 		<form [formGroup]="eventFormGroup">
-			<ng-template matStepLabel> Fill out yout event name </ng-template>
+			<ng-template matStepLabel> Fill out your event name </ng-template>
 			<mat-form-field>
 				<input matInput placeholder="Event name" formControlName="eventCtrl" required>
 			</mat-form-field>
@@ -14,7 +14,7 @@
 
 	<mat-step [stepControl]="addressFormGroup">
 		<form [formGroup]="addressFormGroup">
-			<ng-template matStepLabel> Fill out your address </ng-template>
+			<ng-template matStepLabel> Fill out the address </ng-template>
 			<mat-form-field>
 				<input matInput placeholder="Address" formControlName="addressCtrl" required>
 			</mat-form-field>
@@ -29,23 +29,30 @@
 		<form [formGroup]="dateFormGroup">
 			<ng-template matStepLabel> Choose a date </ng-template>
 			<mat-form-field>
-				<input matInput [matDatepicker]="picker" placeholder="Choose a date">
+				<input matInput [matDatepicker]="picker" formControlName="dateCtrl" placeholder="Choose a date">
 				<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 				<mat-datepicker #picker></mat-datepicker>
 			</mat-form-field>
+			<mat-form-field>
+				<mat-select [(value)]="dateFormGroup.value.hourCtrl">
+				  <mat-option *ngFor="let hour of hours" [value]="hour"> {{hour}}</mat-option>
+				</mat-select>
+			  </mat-form-field>
 			<div>
 				<button mat-button matStepperPrevious> Back </button>
-				<button mat-button matStepperNext> Next </button>
+				<button mat-button matStepperNext (click)="format_date()"> Next </button>
 			</div>
 		</form>
 	</mat-step>
 
 	<mat-step>
-		<ng-template matStepLabel> Done </ng-template>
-		You are now done.
+		<ng-template matStepLabel> Create event ! </ng-template>
+		<p *ngIf="eventFormGroup.value.eventCtrl"> Name : {{eventFormGroup.value.eventCtrl}} </p>
+		<p *ngIf="addressFormGroup.value.addressCtrl"> Address : {{addressFormGroup.value.addressCtrl}} </p>
+		<p *ngIf="dateFormGroup.value.dateCtrl"> Date : {{dateFormGroup.value.dateCtrl}} </p>
 		<div>
 			<button mat-button matStepperPrevious> Back </button>
-			<button mat-button (click)="foo()"> Create </button>
+			<button mat-button (click)="create_event()"> Create </button>
 		</div>
 	</mat-step>
 
