@@ -19,6 +19,12 @@ export class CreateEventComponent implements OnInit {
 	dateFormGroup: FormGroup;
 	hours = Array.from(Array(24), (x, i) => i);
 
+	myEvent: MyEvent = {
+		name: null,
+		address: null,
+		date: null
+	};
+
 	constructor(
 		private formBuilder: FormBuilder
 	) {}

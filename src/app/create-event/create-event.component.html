@@ -4,10 +4,13 @@
 		<form [formGroup]="eventFormGroup">
 			<ng-template matStepLabel> Fill out your event name </ng-template>
 			<mat-form-field>
-				<input matInput placeholder="Event name" formControlName="eventCtrl" required>
+				<input matInput placeholder="Event name" formControlName="eventCtrl" autocomplete="off" required>
 			</mat-form-field>
 			<div>
-				<button mat-button matStepperNext> Next </button>
+				<button mat-raised-button matStepperNext color="primary"
+						(click)="myEvent.name = eventFormGroup.value.eventCtrl"
+						[disabled]="!eventFormGroup.value.eventCtrl"
+				> Next </button>
 			</div>
 		</form>
 	</mat-step>
@@ -16,11 +19,14 @@
 		<form [formGroup]="addressFormGroup">
 			<ng-template matStepLabel> Fill out the address </ng-template>
 			<mat-form-field>
-				<input matInput placeholder="Address" formControlName="addressCtrl" required>
+				<input matInput placeholder="Address" formControlName="addressCtrl" autocomplete="off" required>
 			</mat-form-field>
 			<div>
-				<button mat-button matStepperPrevious> Back </button>
-				<button mat-button matStepperNext> Next </button>
+				<button mat-raised-button matStepperPrevious color="primary"> Back </button>
+				<button mat-raised-button matStepperNext color="primary"
+						(click)="myEvent.address = addressFormGroup.value.addressCtrl"
+						[disabled]="!addressFormGroup.value.addressCtrl"
+				> Next </button>
 			</div>
 		</form>
 	</mat-step>
@@ -34,13 +40,16 @@
 				<mat-datepicker #picker></mat-datepicker>
 			</mat-form-field>
 			<mat-form-field>
-				<mat-select [(value)]="dateFormGroup.value.hourCtrl">
-				  <mat-option *ngFor="let hour of hours" [value]="hour"> {{hour}}h</mat-option>
+				<mat-select [(value)]="dateFormGroup.value.hourCtrl" placeholder="Hours">
+					<mat-option *ngFor="let hour of hours" [value]="hour"> {{hour}}h</mat-option>
 				</mat-select>
-			  </mat-form-field>
+			</mat-form-field>
 			<div>
-				<button mat-button matStepperPrevious> Back </button>
-				<button mat-button matStepperNext (click)="format_date()"> Next </button>
+				<button mat-raised-button matStepperPrevious color="primary"> Back </button>
+				<button mat-raised-button matStepperNext color="primary"
+						(click)="format_date(picker); myEvent.date = dateFormGroup.value.dateCtrl"
+						[disabled]="!dateFormGroup.value.dateCtrl || !dateFormGroup.value.hourCtrl"
+				> Next </button>
 			</div>
 		</form>
 	</mat-step>
@@ -48,20 +57,20 @@
 	<mat-step>
 		<ng-template matStepLabel> Create event ! </ng-template>
 		<p> Name :
-			<span *ngIf="eventFormGroup.value.eventCtrl"> {{eventFormGroup.value.eventCtrl}} </span>
-			<span class="missing" *ngIf="!eventFormGroup.value.eventCtrl"> Missing </span>
+			<span *ngIf="myEvent && myEvent.name"> {{myEvent.name}} </span>
+			<span class="missing" *ngIf="!myEvent || !myEvent.name"> Missing </span>
 		</p>
 		<p> Address :
-			<span *ngIf="addressFormGroup.value.addressCtrl"> {{addressFormGroup.value.addressCtrl}} </span>
-			<span class="missing" *ngIf="!addressFormGroup.value.addressCtrl"> Missing </span>
+			<span *ngIf="myEvent && myEvent.address"> {{myEvent.address}} </span>
+			<span class="missing" *ngIf="!myEvent || !myEvent.address"> Missing </span>
 		</p>
-		<p> Date :  {{eventFormGroup.value.dateCtrl}}
-			<span *ngIf="dateFormGroup.value.dateCtrl"> {{dateFormGroup.value.dateCtrl}} </span>
-			<span class="missing" *ngIf="!dateFormGroup.value.dateCtrl"> Missing </span>
+		<p> Date :
+			<span *ngIf="myEvent && myEvent.date"> {{myEvent.date}} </span>
+			<span class="missing" *ngIf="!myEvent || !myEvent.date"> Missing </span>
 		</p>
 		<div>
-			<button mat-button matStepperPrevious> Back </button>
-			<button mat-button (click)="create_event()"> Create </button>
+			<button mat-raised-button matStepperPrevious color="primary"> Back </button>
+			<button mat-raised-button color="primary" (click)="create_event()"> Create </button>
 		</div>
 	</mat-step>
 
