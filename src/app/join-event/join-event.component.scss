@@ -1,0 +1,28 @@
+@import '~src/variables.scss';
+
+.form {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	width: 50%;
+	margin: 100px auto 0px auto;
+
+	mat-form-field {
+		margin: 30px 0;
+		text-align: center;
+		width: 40%;
+		height: 20%;
+
+		input {
+			font-size: 36px;
+		}
+	}
+
+	button {
+		margin: 30px 0;
+		padding: 15px 0;
+		height: 70%;
+		width: 70%;
+		font-size: 26px;
+	}
+}
