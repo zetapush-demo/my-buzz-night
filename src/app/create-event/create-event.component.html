@@ -47,7 +47,7 @@
 			<div>
 				<button mat-raised-button matStepperPrevious color="primary"> Back </button>
 				<button mat-raised-button matStepperNext color="primary"
-						(click)="format_date(picker); myEvent.date = dateFormGroup.value.dateCtrl"
+						(click)="format_date(); myEvent.date = dateFormGroup.value.dateCtrl"
 						[disabled]="!dateFormGroup.value.dateCtrl || !dateFormGroup.value.hourCtrl"
 				> Next </button>
 			</div>
@@ -70,8 +70,19 @@
 		</p>
 		<div>
 			<button mat-raised-button matStepperPrevious color="primary"> Back </button>
-			<button mat-raised-button color="primary" (click)="create_event()"> Create </button>
+			<button mat-raised-button color="primary"
+					(click)="create_event()"
+					[disabled]="!myEvent.name || !myEvent.address || !myEvent.date"
+			> Create </button>
 		</div>
 	</mat-step>
 
 </mat-horizontal-stepper>
+
+<div *ngIf="eventID" class="form">
+	<button mat-raised-button color="primary"
+			[disabled]="!eventID"
+			[routerLink]="['/event', eventID]"
+	> Join your event ! </button>
+	<h1> {{event}} </h1>
+</div>

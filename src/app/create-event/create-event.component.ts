@@ -22,8 +22,10 @@ export class CreateEventComponent implements OnInit {
 	myEvent: MyEvent = {
 		name: null,
 		address: null,
-		date: null
+		date: null,
 	};
+
+	eventID: string;
 
 	constructor(
 		private formBuilder: FormBuilder
@@ -49,6 +51,7 @@ export class CreateEventComponent implements OnInit {
 			address: this.addressFormGroup.value.addressCtrl,
 			date: this.dateFormGroup.value.dateCtrl
 		}
+		this.eventID = 'tmp';
 		console.log(event);
 	}
 
