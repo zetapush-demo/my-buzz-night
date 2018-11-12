@@ -1,4 +1,4 @@
-<mat-horizontal-stepper [linear]="false" #stepper>
+<mat-horizontal-stepper #stepper>
 
 	<mat-step [stepControl]="eventFormGroup">
 		<form [formGroup]="eventFormGroup">
@@ -35,7 +35,7 @@
 			</mat-form-field>
 			<mat-form-field>
 				<mat-select [(value)]="dateFormGroup.value.hourCtrl">
-				  <mat-option *ngFor="let hour of hours" [value]="hour"> {{hour}}</mat-option>
+				  <mat-option *ngFor="let hour of hours" [value]="hour"> {{hour}}h</mat-option>
 				</mat-select>
 			  </mat-form-field>
 			<div>
@@ -47,9 +47,18 @@
 
 	<mat-step>
 		<ng-template matStepLabel> Create event ! </ng-template>
-		<p *ngIf="eventFormGroup.value.eventCtrl"> Name : {{eventFormGroup.value.eventCtrl}} </p>
-		<p *ngIf="addressFormGroup.value.addressCtrl"> Address : {{addressFormGroup.value.addressCtrl}} </p>
-		<p *ngIf="dateFormGroup.value.dateCtrl"> Date : {{dateFormGroup.value.dateCtrl}} </p>
+		<p> Name :
+			<span *ngIf="eventFormGroup.value.eventCtrl"> {{eventFormGroup.value.eventCtrl}} </span>
+			<span class="missing" *ngIf="!eventFormGroup.value.eventCtrl"> Missing </span>
+		</p>
+		<p> Address :
+			<span *ngIf="addressFormGroup.value.addressCtrl"> {{addressFormGroup.value.addressCtrl}} </span>
+			<span class="missing" *ngIf="!addressFormGroup.value.addressCtrl"> Missing </span>
+		</p>
+		<p> Date :  {{eventFormGroup.value.dateCtrl}}
+			<span *ngIf="dateFormGroup.value.dateCtrl"> {{dateFormGroup.value.dateCtrl}} </span>
+			<span class="missing" *ngIf="!dateFormGroup.value.dateCtrl"> Missing </span>
+		</p>
 		<div>
 			<button mat-button matStepperPrevious> Back </button>
 			<button mat-button (click)="create_event()"> Create </button>
