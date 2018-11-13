@@ -15,11 +15,15 @@ mat-horizontal-stepper mat-form-field, button {
 	width: 50%;
 	margin: 100px auto 0px auto;
 
-	button {
+	a#button {
 		margin: 30px 0;
 		padding: 15px 0;
 		height: 70%;
 		width: 70%;
 		font-size: 26px;
+	}
+
+	a#eventUrl:hover {
+		text-decoration: underline;
 	}
 }

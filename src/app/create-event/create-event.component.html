@@ -4,7 +4,7 @@
 		<form [formGroup]="eventFormGroup">
 			<ng-template matStepLabel> Fill out your event name </ng-template>
 			<mat-form-field>
-				<input matInput placeholder="Event name" formControlName="eventCtrl" autocomplete="off" required>
+				<input matInput placeholder="Event name" formControlName="eventCtrl" autocomplete="off" autofocus required>
 			</mat-form-field>
 			<div>
 				<button mat-raised-button matStepperNext color="primary"
@@ -19,7 +19,7 @@
 		<form [formGroup]="addressFormGroup">
 			<ng-template matStepLabel> Fill out the address </ng-template>
 			<mat-form-field>
-				<input matInput placeholder="Address" formControlName="addressCtrl" autocomplete="off" required>
+				<input matInput placeholder="Address" formControlName="addressCtrl" autocomplete="off" autofocus required>
 			</mat-form-field>
 			<div>
 				<button mat-raised-button matStepperPrevious color="primary"> Back </button>
@@ -35,7 +35,7 @@
 		<form [formGroup]="dateFormGroup">
 			<ng-template matStepLabel> Choose a date </ng-template>
 			<mat-form-field>
-				<input matInput [matDatepicker]="picker" formControlName="dateCtrl" placeholder="Choose a date">
+				<input matInput [matDatepicker]="picker" formControlName="dateCtrl" placeholder="Choose a date" autocomplete="off" autofocus required>
 				<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 				<mat-datepicker #picker></mat-datepicker>
 			</mat-form-field>
@@ -47,7 +47,7 @@
 			<div>
 				<button mat-raised-button matStepperPrevious color="primary"> Back </button>
 				<button mat-raised-button matStepperNext color="primary"
-						(click)="format_date(); myEvent.date = dateFormGroup.value.dateCtrl"
+						(click)="myEvent.date = format_date()"
 						[disabled]="!dateFormGroup.value.dateCtrl || !dateFormGroup.value.hourCtrl"
 				> Next </button>
 			</div>
@@ -80,9 +80,7 @@
 </mat-horizontal-stepper>
 
 <div *ngIf="eventID" class="form">
-	<button mat-raised-button color="primary"
-			[disabled]="!eventID"
-			[routerLink]="['/event', eventID]"
-	> Join your event ! </button>
-	<h1> {{event}} </h1>
+	<h1> eventID : {{eventID}} </h1>
+	<h3> Share it with your friends : <a id="eventUrl" href="{{eventUrl}}"> {{eventUrl}} </a> </h3>
+	<a id="button" mat-raised-button color="primary" [routerLink]="['/event', eventID]"> Join your event ! </a>
 </div>

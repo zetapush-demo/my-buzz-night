@@ -26,6 +26,7 @@ export class CreateEventComponent implements OnInit {
 	};
 
 	eventID: string;
+	eventUrl: string;
 
 	constructor(
 		private formBuilder: FormBuilder
@@ -42,17 +43,13 @@ export class CreateEventComponent implements OnInit {
 		const y = tmp.getFullYear();
 		const hours_minutes = tmp.toString().split(' ')[4];
 
-		this.dateFormGroup.value.dateCtrl = `${d < 10 ? '0' + d : d}-${m < 10 ? '0' + m : m}-${y} ${hours_minutes}`;
+		return `${d < 10 ? '0' + d : d}-${m < 10 ? '0' + m : m}-${y} ${hours_minutes}`;
 	}
 
 	create_event() {
-		const event: MyEvent = {
-			name: this.eventFormGroup.value.eventCtrl,
-			address: this.addressFormGroup.value.addressCtrl,
-			date: this.dateFormGroup.value.dateCtrl
-		}
-		this.eventID = 'tmp';
-		console.log(event);
+		this.eventID = '2F!TG52$';
+		this.eventUrl = `${window.location.origin}/event/${this.eventID}`;
+		console.log(this.myEvent);
 	}
 
 	ngOnInit() {
