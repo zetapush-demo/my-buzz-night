@@ -77,11 +77,19 @@ export default class Api {
 			group: eventID
 		});
 		const users: string[] = group.users || [];
+		const data: StackItem = {
+			data: message,
+			ts: Date.now()
+		}
 
 		this.messaging.send({
 			channel: eventID,
 			target: users,
-			data: message
+			data: data
+		});
+		await this.stack.push({
+			stack: eventID,
+			data: data
 		});
 	}
 }
