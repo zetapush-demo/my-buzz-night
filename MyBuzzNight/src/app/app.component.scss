@@ -1,6 +1,7 @@
 @import '~src/variables.scss';
 
 header {
+	text-align: center;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -22,13 +23,14 @@ header::after {
 }
 
 .home_button {
-	padding: 10px 0 0 10px;
+	position: absolute;
+	left: 0;
+	margin: 10px 0 0 10px;
 	height: 80%;
 }
 
 h1 {
-	text-align: center;
-	margin-top: -60px;
+	margin: $header_height / 4 auto 0 auto;
 }
 
 mat-spinner {

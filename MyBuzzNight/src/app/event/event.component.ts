@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { MyEvent, WorkerService } from '../worker.service';
+import { MyEvent, WorkerService, joinEventResponse } from '../worker.service';
+import { StackItem } from '@zetapush/platform-legacy';
 
 @Component({
 	selector: 'app-event',
@@ -11,7 +12,7 @@ export class EventComponent implements OnInit {
 
 	eventID: string;
 	myEvent: MyEvent;
-	messages: any[];
+	messages: StackItem[];
 
 	constructor(
 		private workerService: WorkerService,
@@ -19,12 +20,11 @@ export class EventComponent implements OnInit {
 
 	async ngOnInit() {
 		this.eventID = window.location.pathname.split('/')[2];
-		const eventData = await this.workerService.joinEvent(this.eventID);
+		const eventData: joinEventResponse = await this.workerService.joinEvent(this.eventID);
 
 		if (eventData) {
-			this.myEvent = eventData.event;
+			this.myEvent = eventData.event.data as MyEvent;
 			this.messages = eventData.messages
 		}
 	}
-
 }

@@ -1,10 +1,15 @@
-import { Messaging, Groups, GroupUsers, Stack } from '@zetapush/platform-legacy';
-import { Injectable, Context } from '@zetapush/core'
+import { Messaging, Groups, GroupUsers, Stack, StackItem } from '@zetapush/platform-legacy';
+import { Injectable, Context } from '@zetapush/core';
 
 export interface MyEvent {
 	name: string;
 	address: string;
 	date: string;
+}
+
+export interface joinEventResponse {
+	event: StackItem;
+	messages: StackItem[];
 }
 
 @Injectable()
@@ -22,29 +27,31 @@ export default class Api {
 	 * Parse a randomly generated number in string as a base number 36
 	 */
 
-	private generateEventID() {
+	private generateEventID(): string {
 		return Math.random().toString(36).substring(2);
 	}
 
 	async createEvent(event: MyEvent): Promise<string> {
-		const newEventID = this.generateEventID();
+		const eventID = this.generateEventID();
 		const { exists } = await this.groups.exists({
-			group: newEventID
+			group: eventID
 		});
 
 		if (exists)
 			return this.createEvent(event);
 		await this.groups.createGroup({
-			group: newEventID
+			group: eventID
 		});
 		await this.stack.push({
-			stack: newEventID,
+			stack: eventID,
 			data: event
 		});
-		return newEventID;
+		console.log('createEvent =>', event.name, eventID);
+		return eventID;
 	}
 
-	async joinEvent(eventID: string) {
+	async joinEvent(eventID: string): Promise<joinEventResponse> {
+		console.log('joinEvent =>', eventID);
 		const { exists } = await this.groups.exists({
 			group: eventID
 		});
@@ -58,6 +65,7 @@ export default class Api {
 		const { result } = await this.stack.list({
 			stack: eventID
 		});
+		console.log('event info', result.content);
 		return {
 			event: result.content.pop(), // event information at the top of stack
 			messages: result.content // the rest of the stack contains messages

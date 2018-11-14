@@ -2,12 +2,17 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import { WeakClient, ProxyService } from '@zetapush/client';
-import { Messaging } from '@zetapush/platform-legacy/lib/';
+import { Messaging, StackItem } from '@zetapush/platform-legacy';
 
 export interface MyEvent {
 	name: string;
 	address: string;
 	date: string;
+}
+
+export interface joinEventResponse {
+	event: StackItem;
+	messages: StackItem[];
 }
 
 @Injectable({
@@ -43,15 +48,18 @@ export class WorkerService {
 
 	async joinEvent(eventID: string) {
 		console.log('start api.joinEvent()');
-		const { event, messages } = await this.api.joinEvent(eventID) as any;
+		const eventData = await this.api.joinEvent(eventID) as any;
 		console.log('end api.joinEvent()');
 
+		if (!eventData)
+			return console.log('null'), null;
 		await this.client.createService({
 			Type: Messaging,
 			listener: {
 				[eventID]: ({ data }) => this.observer.next(data.data.message)
 			}
 		});
-		return { event, messages };
+		console.log(eventData);
+		return eventData;
 	}
 }
