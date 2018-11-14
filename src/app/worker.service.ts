@@ -43,7 +43,7 @@ export class WorkerService {
 
 	async joinEvent(eventID: string) {
 		console.log('start api.joinEvent()');
-		const { event, message } = await this.api.joinEvent(eventID) as any;
+		const { event, messages } = await this.api.joinEvent(eventID) as any;
 		console.log('end api.joinEvent()');
 
 		await this.client.createService({
@@ -52,6 +52,6 @@ export class WorkerService {
 				[eventID]: ({ data }) => this.observer.next(data.data.message)
 			}
 		});
-		return { event, message };
+		return { event, messages };
 	}
 }

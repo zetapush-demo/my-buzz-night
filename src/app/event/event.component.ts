@@ -11,7 +11,7 @@ export class EventComponent implements OnInit {
 
 	eventID: string;
 	myEvent: MyEvent;
-	message: any[];
+	messages: any[];
 
 	constructor(
 		private workerService: WorkerService,
@@ -23,7 +23,7 @@ export class EventComponent implements OnInit {
 
 		if (eventData) {
 			this.myEvent = eventData.event;
-			this.message = eventData.message
+			this.messages = eventData.messages
 		}
 	}
 

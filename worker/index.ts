@@ -60,7 +60,7 @@ export default class Api {
 		});
 		return {
 			event: result.content.pop(), // event information at the top of stack
-			message: result.content // the rest of the stack contains messages
+			messages: result.content // the rest of the stack contains messages
 		};
 	}
 

@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatCardModule } from '@angular/material/card';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -31,7 +32,8 @@ import { HomeComponent } from './home/home.component';
 		MatDatepickerModule,
 		MatNativeDateModule,
 		MatSelectModule,
-		MatToolbarModule
+		MatToolbarModule,
+		MatCardModule
 	],
 	declarations: [
 		AppComponent,
