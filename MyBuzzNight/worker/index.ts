@@ -89,7 +89,7 @@ export default class Api {
 		});
 		await this.stack.push({
 			stack: eventID,
-			data: data
+			data: data.data
 		});
 	}
 }
