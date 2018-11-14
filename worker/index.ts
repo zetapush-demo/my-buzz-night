@@ -27,25 +27,30 @@ export default class Api {
 	}
 
 	async createEvent(event: MyEvent): Promise<string> {
-		const newEventId = this.generateEventID();
-
+		const newEventID = this.generateEventID();
 		const { exists } = await this.groups.exists({
-			group: newEventId
+			group: newEventID
 		});
 
 		if (exists)
 			return this.createEvent(event);
 		await this.groups.createGroup({
-			group: newEventId
+			group: newEventID
 		});
 		await this.stack.push({
-			stack: newEventId,
+			stack: newEventID,
 			data: event
 		});
-		return newEventId;
+		return newEventID;
 	}
 
 	async joinEvent(eventID: string) {
+		const { exists } = await this.groups.exists({
+			group: eventID
+		});
+
+		if (!exists)
+			return null;
 		await this.groups.addUser({
 			group: eventID,
 			user: this.requestContext.owner
@@ -54,8 +59,8 @@ export default class Api {
 			stack: eventID
 		});
 		return {
-			event: result.content.pop(),
-			message: result.content
+			event: result.content.pop(), // event information at the top of stack
+			message: result.content // the rest of the stack contains messages
 		};
 	}
 

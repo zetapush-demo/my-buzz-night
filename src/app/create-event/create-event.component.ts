@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MyEvent } from '../my-buzz-night.service';
+import { MyEvent, WorkerService } from '../worker.service';
 
 @Component({
 	selector: 'app-create-event',
@@ -24,7 +24,8 @@ export class CreateEventComponent implements OnInit {
 	eventUrl: string;
 
 	constructor(
-		private formBuilder: FormBuilder
+		private formBuilder: FormBuilder,
+		private workerService: WorkerService
 	) {}
 
 	format_date() {
@@ -41,10 +42,10 @@ export class CreateEventComponent implements OnInit {
 		return `${d < 10 ? '0' + d : d}-${m < 10 ? '0' + m : m}-${y} ${hours_minutes}`;
 	}
 
-	create_event() {
-		this.eventID = '2F!TG52$';
+	async create_event() {
+		this.eventID = await this.workerService.createEvent(this.myEvent);
 		this.eventUrl = `${window.location.origin}/event/${this.eventID}`;
-		console.log(this.myEvent);
+		console.log('eventID: ', this.eventID);
 	}
 
 	ngOnInit() {

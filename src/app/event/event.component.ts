@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
-import { MyEvent } from '../create-event/create-event.component';
+import { MyEvent, WorkerService } from '../worker.service';
 
 @Component({
 	selector: 'app-event',
@@ -12,24 +11,20 @@ export class EventComponent implements OnInit {
 
 	eventID: string;
 	myEvent: MyEvent;
+	message: any[];
 
 	constructor(
-		private router: Router
+		private workerService: WorkerService,
 	) { }
 
-	foo(eventID: string): MyEvent {
-		return {
-			name: 'Pizza Bière',
-			address: 'Chez Michel',
-			date: '16-11-2018 12:00:00'
-		};
-	}
-
 	async ngOnInit() {
-		this.eventID = this.router.url.split('/')[2];
-		this.myEvent = this.foo(this.eventID);
+		this.eventID = window.location.pathname.split('/')[2];
+		const eventData = await this.workerService.joinEvent(this.eventID);
 
-		console.log(this.eventID);
+		if (eventData) {
+			this.myEvent = eventData.event;
+			this.message = eventData.message
+		}
 	}
 
 }

@@ -11,7 +11,7 @@ const routes: Routes = [
 	{ path: 'create',	component: CreateEventComponent },
 	{ path: 'join',		component: JoinEventComponent },
 	{ path: 'event/:id',	component: EventComponent },
-	{ path: '**',		redirectTo: '' },
+	{ path: '**',		redirectTo: '/' },
 ];
 
 @NgModule({
