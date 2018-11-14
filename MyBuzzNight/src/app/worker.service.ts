@@ -33,33 +33,26 @@ export class WorkerService {
 	}
 
 	async workerConnect() {
-		console.log('start client.connect()');
 		await this.client.connect();
-		console.log('end client.connect()');
 	}
 
 	async createEvent(event: MyEvent): Promise<string> {
-		console.log('start api.createEvent()');
 		const eventID: string = await this.api.createEvent(event) as string;
-		console.log('end api.createEvent()');
 
 		return eventID;
 	}
 
 	async joinEvent(eventID: string) {
-		console.log('start api.joinEvent()');
 		const eventData = await this.api.joinEvent(eventID) as any;
-		console.log('end api.joinEvent()');
 
 		if (!eventData)
 			return console.log('null'), null;
 		await this.client.createService({
 			Type: Messaging,
 			listener: {
-				[eventID]: ({ data }) => this.observer.next(data.data.message)
+				[eventID]: ({ data }) => this.observer.next(data.data.data)
 			}
 		});
-		console.log(eventData);
 		return eventData;
 	}
 }

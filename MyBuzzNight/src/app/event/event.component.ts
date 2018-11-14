@@ -26,5 +26,8 @@ export class EventComponent implements OnInit {
 			this.myEvent = eventData.event.data as MyEvent;
 			this.messages = eventData.messages
 		}
+		this.workerService.observer.subscribe(
+			(data: StackItem) => this.messages.push(data)
+		);
 	}
 }
