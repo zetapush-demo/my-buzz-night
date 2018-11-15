@@ -4,6 +4,10 @@
 	<span> {{myEvent.date}} </span>
 </mat-toolbar>
 
+<form #form>
+	<input type="file" (change)="sendImage($event.target.files)" accept="image/*" multiple/>
+</form>
+
 <div fxLayout="row wrap">
 	<mat-card fxFlex="calc(50% - 16px)" fxFlex.gt-sm="calc(40% - 16px)" fxFlex.gt-md="calc(30% - 16px)" fxFlex.gt-lg="calc(20% - 16px)" *ngFor="let message of messages">
 		<mat-card-header>

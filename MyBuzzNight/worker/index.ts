@@ -1,4 +1,4 @@
-import { Messaging, Groups, GroupUsers, Stack, StackItem } from '@zetapush/platform-legacy';
+import { Messaging, Groups, GroupUsers, Stack, StackItem, Zpfs_hdfs, FileUploadLocation } from '@zetapush/platform-legacy';
 import { Injectable, Context } from '@zetapush/core';
 
 export interface MyEvent {
@@ -21,6 +21,7 @@ export default class Api {
 		private messaging: Messaging,
 		private groups: Groups,
 		private stack: Stack,
+		private hdfs: Zpfs_hdfs,
 	) { }
 
 	/*
@@ -46,12 +47,10 @@ export default class Api {
 			stack: eventID,
 			data: event
 		});
-		console.log('createEvent =>', event.name, eventID);
 		return eventID;
 	}
 
 	async joinEvent(eventID: string): Promise<joinEventResponse> {
-		console.log('joinEvent =>', eventID);
 		const { exists } = await this.groups.exists({
 			group: eventID
 		});
@@ -65,31 +64,63 @@ export default class Api {
 		const { result } = await this.stack.list({
 			stack: eventID
 		});
-		console.log('event info', result.content);
 		return {
 			event: result.content.pop(), // event information at the top of stack
 			messages: result.content // the rest of the stack contains messages
 		};
 	}
 
-	async sendMessage(eventID: string, message) {
+	async sendMessage(input: {eventID: string, message: any}) {
 		const group: GroupUsers = await this.groups.groupUsers({
-			group: eventID
+			group: input.eventID
 		});
 		const users: string[] = group.users || [];
 		const data: StackItem = {
-			data: message,
+			data: input.message,
 			ts: Date.now()
 		}
 
+		console.log('message:', data);
 		this.messaging.send({
-			channel: eventID,
+			channel: input.eventID,
 			target: users,
 			data: data
 		});
 		await this.stack.push({
-			stack: eventID,
+			stack: input.eventID,
 			data: data.data
 		});
+	}
+
+	async getImageUploadURL(input: {eventID: string, name: string, type: string}): Promise<FileUploadLocation> {
+		const path = `/${input.eventID}_${this.requestContext.owner}_${input.name}`;
+		const file = await this.hdfs.stat({ path });
+
+		console.log('HDFS.STAT', file);
+		console.log('HDFS.LS', await this.hdfs.ls({
+			folder: '/'
+		}));
+
+		if (file.entry) {
+			console.log('file already exist');
+			await this.hdfs.rm({ path });
+		}
+		console.log('type: ', input.type);
+		console.log('path: ', path);
+		const url: any = await this.hdfs.newUploadUrl({
+			contentType: input.type,
+			path
+		}).catch(err => console.log(err));
+		console.log('HDFS.NEWUPLOADURL', url);
+		return url;
+	}
+
+	async getImageURL(guid: string): Promise<string> {
+		const request = await this.hdfs.newFile({
+			guid
+		});
+
+		console.log('getImageURL: ', request);
+		return request.url.url;
 	}
 }
