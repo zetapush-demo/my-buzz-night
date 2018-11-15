@@ -62,36 +62,36 @@ export class WorkerService {
 			name: file.name,
 			type: file.type
 		});
-		console.log('sendImage => getImageUploadURL: ', transfer);
-		if (!transfer)
-			return;
 		await this.upload(transfer, file);
-		const confirm: ListingEntryInfo = await this.api.getImageURL(transfer.guid);
-		console.log('sendImage => getImageURL: ', confirm);
-
-		await this.api.sendMessage({
-			eventID,
-			url: confirm.url.url
-		});
+		const url = await this.api.getImageURL(transfer.guid);
+		console.log({ eventID, url });
+		await this.api.sendMessage({ eventID, url });
 	}
 
 	private async upload(transfer: FileUploadLocation, file: File) {
-		const xhr = new XMLHttpRequest();
+		return new Promise<any>((resolve, reject) => {
+			const xhr = new XMLHttpRequest();
 
-		xhr.onreadystatechange = () => {
-			if (xhr.readyState === 4)
-				console.log(`Sending : ${xhr.status === 200 ? 'success' : 'fail'}`);
-		};
-		xhr.upload.onprogress = (e: any) => {
-				const done = e.position || e.loaded;
-				const total = e.totalSize || e.total;
-				const progression = Math.floor(done / total * 1000) / 10;
-
-				console.log(`xhr.upload progress: ${progression}%`);
+			xhr.onreadystatechange = () => {
+				if (xhr.readyState === 4) {
+					if (200 <= xhr.status && xhr.status < 300)
+						resolve({transfer, file});
+					else
+						reject({transfer, file});
+					console.log(`Sending : ${xhr.status === 200 ? 'success' : 'fail'}`);
+				}
 			};
-		xhr.open(transfer.httpMethod, this.getSecureUrl(transfer.url), true);
-		xhr.setRequestHeader('Content-Type', file.type);
-		xhr.send(file);
+			xhr.upload.onprogress = (e: any) => {
+					const done = e.position || e.loaded;
+					const total = e.totalSize || e.total;
+					const progression = Math.floor(done / total * 1000) / 10;
+
+					console.log(`xhr.upload progress: ${progression}%`);
+				};
+			xhr.open(transfer.httpMethod, this.getSecureUrl(transfer.url), true);
+			xhr.setRequestHeader('Content-Type', file.type);
+			xhr.send(file);
+		});
 	}
 
 	private getSecureUrl(url) {

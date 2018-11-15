@@ -12,6 +12,12 @@ export interface joinEventResponse {
 	messages: StackItem[];
 }
 
+const HACK = <any>(Zpfs_hdfs);
+HACK.DEPLOYMENT_OPTIONS = {
+	upload_user_provides_filename: true,
+	upload_thumbnails: '80'
+};
+
 @Injectable()
 export default class Api {
 
@@ -70,13 +76,13 @@ export default class Api {
 		};
 	}
 
-	async sendMessage(input: {eventID: string, message: any}) {
+	async sendMessage(input: {eventID: string, url: any}) {
 		const group: GroupUsers = await this.groups.groupUsers({
 			group: input.eventID
 		});
 		const users: string[] = group.users || [];
 		const data: StackItem = {
-			data: input.message,
+			data: input.url,
 			ts: Date.now()
 		}
 
@@ -96,23 +102,12 @@ export default class Api {
 		const path = `/${input.eventID}_${this.requestContext.owner}_${input.name}`;
 		const file = await this.hdfs.stat({ path });
 
-		console.log('HDFS.STAT', file);
-		console.log('HDFS.LS', await this.hdfs.ls({
-			folder: '/'
-		}));
-
-		if (file.entry) {
-			console.log('file already exist');
+		if (file.entry)
 			await this.hdfs.rm({ path });
-		}
-		console.log('type: ', input.type);
-		console.log('path: ', path);
-		const url: any = await this.hdfs.newUploadUrl({
+		return await this.hdfs.newUploadUrl({
 			contentType: input.type,
 			path
-		}).catch(err => console.log(err));
-		console.log('HDFS.NEWUPLOADURL', url);
-		return url;
+		});
 	}
 
 	async getImageURL(guid: string): Promise<string> {
@@ -120,7 +115,6 @@ export default class Api {
 			guid
 		});
 
-		console.log('getImageURL: ', request);
 		return request.url.url;
 	}
 }
