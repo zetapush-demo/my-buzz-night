@@ -70,9 +70,17 @@ export default class Api {
 		const { result } = await this.stack.list({
 			stack: eventID
 		});
+
+		if (!result || !result.content.length)
+			return null;
 		return {
 			event: result.content.pop(), // event information at the top of stack
-			messages: result.content // the rest of the stack contains messages
+			messages: result.content.reverse().map(x => { // the rest of the stack contains messages
+				return {
+					data: x.data.url,
+					ts: x.ts
+				};
+			})
 		};
 	}
 

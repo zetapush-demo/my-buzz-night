@@ -12,7 +12,7 @@ export class EventComponent implements OnInit {
 
 	eventID: string;
 	myEvent: MyEvent;
-	messages: StackItem[];
+	messages: StackItem[] = [];
 
 	@ViewChild('form') form: ElementRef;
 
@@ -26,14 +26,11 @@ export class EventComponent implements OnInit {
 		this.form.nativeElement.reset();
 	}
 
-	parse_time(time) {
-		const tmp = new Date(time);
-		const d = tmp.getDate();
-		const m = tmp.getMonth() + 1; // January is 0!
-		const y = tmp.getFullYear();
-		const hours_minutes = tmp.toString().split(' ')[4];
-
-		return `${d < 10 ? '0' + d : d}-${m < 10 ? '0' + m : m}-${y} ${hours_minutes}`;
+	filterInputMessage(message: StackItem): StackItem {
+		return {
+			data: message.data,
+			ts: new Date(message.ts).toString().split(' ')[4] as any
+		}
 	}
 
 	async ngOnInit() {
@@ -43,16 +40,13 @@ export class EventComponent implements OnInit {
 		console.log(eventData);
 		if (eventData) {
 			this.myEvent = eventData.event.data as MyEvent;
-			this.messages = eventData.messages.map(x => {
-				return {
-					data: x.data.url,
-					ts: x.ts
-				};
+			eventData.messages.forEach(x => {
+				this.messages.push(this.filterInputMessage(x));
 			});
 		}
 		console.log('from stack: ', this.messages);
 		this.workerService.observer.subscribe(
-			(data: StackItem) => this.messages.push(data)
+			(data: StackItem) => this.messages.push(this.filterInputMessage(data))
 		);
 	}
 }
