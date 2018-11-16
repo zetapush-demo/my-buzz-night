@@ -15,33 +15,44 @@ export class EventComponent implements OnInit {
 	messages: StackItem[];
 
 	@ViewChild('form') form: ElementRef;
-	imageUrl: string;
 
 	constructor(
 		private workerService: WorkerService
 	) { }
 
 	async sendImage(files: FileList) {
-		for (var i = 0; i < files.length; i++) {
-			console.log(files[i].name);
+		for (var i = 0; i < files.length; i++)
 			await this.workerService.sendImage(this.eventID, files[i]);
-		}
 		this.form.nativeElement.reset();
+	}
+
+	parse_time(time) {
+		const tmp = new Date(time);
+		const d = tmp.getDate();
+		const m = tmp.getMonth() + 1; // January is 0!
+		const y = tmp.getFullYear();
+		const hours_minutes = tmp.toString().split(' ')[4];
+
+		return `${d < 10 ? '0' + d : d}-${m < 10 ? '0' + m : m}-${y} ${hours_minutes}`;
 	}
 
 	async ngOnInit() {
 		this.eventID = window.location.pathname.split('/')[2];
 		const eventData: joinEventResponse = await this.workerService.joinEvent(this.eventID);
 
+		console.log(eventData);
 		if (eventData) {
 			this.myEvent = eventData.event.data as MyEvent;
-			this.messages = eventData.messages
+			this.messages = eventData.messages.map(x => {
+				return {
+					data: x.data.url,
+					ts: x.ts
+				};
+			});
 		}
+		console.log('from stack: ', this.messages);
 		this.workerService.observer.subscribe(
-			(data: StackItem) => {
-				this.messages.push(data);
-				console.log(this.messages);
-			}
+			(data: StackItem) => this.messages.push(data)
 		);
 	}
 }

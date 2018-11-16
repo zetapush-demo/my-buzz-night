@@ -50,7 +50,7 @@ export class WorkerService {
 		await this.client.createService({
 			Type: Messaging,
 			listener: {
-				[eventID]: ({ data }) => this.observer.next(data.data.data)
+				[eventID]: ({ data }) => this.observer.next(data.data)
 			}
 		});
 		return eventData;
@@ -62,9 +62,9 @@ export class WorkerService {
 			name: file.name,
 			type: file.type
 		});
+
 		await this.upload(transfer, file);
 		const url = await this.api.getImageURL(transfer.guid);
-		console.log({ eventID, url });
 		await this.api.sendMessage({ eventID, url });
 	}
 
@@ -78,16 +78,8 @@ export class WorkerService {
 						resolve({transfer, file});
 					else
 						reject({transfer, file});
-					console.log(`Sending : ${xhr.status === 200 ? 'success' : 'fail'}`);
 				}
 			};
-			xhr.upload.onprogress = (e: any) => {
-					const done = e.position || e.loaded;
-					const total = e.totalSize || e.total;
-					const progression = Math.floor(done / total * 1000) / 10;
-
-					console.log(`xhr.upload progress: ${progression}%`);
-				};
 			xhr.open(transfer.httpMethod, this.getSecureUrl(transfer.url), true);
 			xhr.setRequestHeader('Content-Type', file.type);
 			xhr.send(file);

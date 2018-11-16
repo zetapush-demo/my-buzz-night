@@ -94,7 +94,9 @@ export default class Api {
 		});
 		await this.stack.push({
 			stack: input.eventID,
-			data: data.data
+			data: {
+				url: input.url
+			}
 		});
 	}
 
