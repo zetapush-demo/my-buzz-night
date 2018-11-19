@@ -46,7 +46,7 @@ export class WorkerService {
 		const eventData = await this.api.joinEvent(eventID) as joinEventResponse;
 
 		if (!eventData)
-			return console.log('null'), null;
+			return null;
 		await this.client.createService({
 			Type: Messaging,
 			listener: {

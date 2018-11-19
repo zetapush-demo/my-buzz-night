@@ -2,5 +2,5 @@
 	<mat-form-field>
 		<input matInput #eventID placeholder="Enter the Event ID" autocomplete="off">
 	</mat-form-field>
-	<a mat-raised-button [disabled]="!eventID.value.length" [routerLink]="['/event', eventID.value]" color="primary"> Join </a>
+	<button mat-raised-button [disabled]="!eventID.value.length" (click)="joinEvent(eventID.value)" color="primary"> Join </button>
 </div>

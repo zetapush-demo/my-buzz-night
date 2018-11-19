@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { MyEvent, WorkerService, joinEventResponse } from '../worker.service';
 import { StackItem } from '@zetapush/platform-legacy';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-event',
@@ -17,7 +18,8 @@ export class EventComponent implements OnInit {
 	@ViewChild('form') form: ElementRef;
 
 	constructor(
-		private workerService: WorkerService
+		private workerService: WorkerService,
+		private router: Router
 	) { }
 
 	async sendImage(files: FileList) {
@@ -37,15 +39,15 @@ export class EventComponent implements OnInit {
 		this.eventID = window.location.pathname.split('/')[2];
 		const eventData: joinEventResponse = await this.workerService.joinEvent(this.eventID);
 
-		console.log(eventData);
 		if (eventData) {
 			this.myEvent = eventData.event.data as MyEvent;
 			eventData.messages.forEach(x => {
 				this.messages.push(this.filterInputMessage(x));
 			});
-		}
-		this.workerService.observer.subscribe(
-			(data: StackItem) => this.messages.push(this.filterInputMessage(data))
-		);
+			this.workerService.observer.subscribe(
+				(data: StackItem) => this.messages.push(this.filterInputMessage(data))
+			);
+		} else
+			this.router.navigate(['/join']);
 	}
 }

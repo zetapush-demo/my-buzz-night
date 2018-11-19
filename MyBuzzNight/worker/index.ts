@@ -38,11 +38,17 @@ export default class Api {
 		return Math.random().toString(36).substring(2);
 	}
 
-	async createEvent(event: MyEvent): Promise<string> {
-		const eventID = this.generateEventID();
+	async isEventExists(eventID: string) {
 		const { exists } = await this.groups.exists({
 			group: eventID
 		});
+
+		return exists;
+	}
+
+	async createEvent(event: MyEvent): Promise<string> {
+		const eventID = this.generateEventID();
+		const exists = await this.isEventExists(eventID);
 
 		if (exists)
 			return this.createEvent(event);
@@ -57,9 +63,7 @@ export default class Api {
 	}
 
 	async joinEvent(eventID: string): Promise<joinEventResponse> {
-		const { exists } = await this.groups.exists({
-			group: eventID
-		});
+		const exists = await this.isEventExists(eventID);
 
 		if (!exists)
 			return null;
