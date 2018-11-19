@@ -60,7 +60,8 @@ export class WorkerService {
 		const transfer: FileUploadLocation = await this.api.getImageUploadURL({
 			eventID,
 			name: file.name,
-			type: file.type
+			type: file.type,
+			ts: Date.now()
 		});
 
 		await this.upload(transfer, file);

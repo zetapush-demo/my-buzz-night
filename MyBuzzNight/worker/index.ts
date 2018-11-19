@@ -108,8 +108,8 @@ export default class Api {
 		});
 	}
 
-	async getImageUploadURL(input: {eventID: string, name: string, type: string}): Promise<FileUploadLocation> {
-		const path = `/${input.eventID}_${this.requestContext.owner}_${input.name}`;
+	async getImageUploadURL(input: {eventID: string, name: string, type: string, ts: number}): Promise<FileUploadLocation> {
+		const path = `/${input.eventID}_${this.requestContext.owner}_${input.name}_${input.ts}`;
 		const file = await this.hdfs.stat({ path });
 
 		if (file.entry)
