@@ -4,22 +4,22 @@
 	<span> {{myEvent.date}} </span>
 </mat-toolbar>
 
+<h1 *ngIf="!messages || !messages.length"> Become the first to send a photo ! </h1>
+<div *ngIf="messages && messages.length" fxLayout="row wrap" class="messages">
+	<mat-card *ngFor="let message of messages">
+		<mat-card-content>
+			<img [src]="message.data">
+		</mat-card-content>
+		<mat-card-footer>
+			<i> {{message.ts}} </i>
+		</mat-card-footer>
+	</mat-card>
+</div>
+
 <form #form>
 	<input style="display: none" #input type="file" (change)="sendImage($event.target.files)" accept="image/*" multiple/>
 	<button mat-flat-button color="primary" (click)="input.click()">
 		<mat-icon> send </mat-icon>
-		Send photo
+		Send photos
 	</button>
 </form>
-
-<h1 *ngIf="!messages || !messages.length"> Send nudes ! </h1>
-<div fxLayout="row wrap">
-	<mat-card fxFlex="calc(50% - 16px)" fxFlex.gt-sm="calc(40% - 16px)" fxFlex.gt-md="calc(30% - 16px)" fxFlex.gt-lg="calc(20% - 16px)" *ngFor="let message of messages">
-		<mat-card-header>
-			<mat-card-title> Send at {{message.ts}} </mat-card-title>
-		</mat-card-header>
-		<mat-card-content>
-			<img [src]="message.data">
-		</mat-card-content>
-	</mat-card>
-</div>

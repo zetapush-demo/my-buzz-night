@@ -44,7 +44,6 @@ export class EventComponent implements OnInit {
 				this.messages.push(this.filterInputMessage(x));
 			});
 		}
-		console.log('from stack: ', this.messages);
 		this.workerService.observer.subscribe(
 			(data: StackItem) => this.messages.push(this.filterInputMessage(data))
 		);
