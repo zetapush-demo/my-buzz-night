@@ -21,3 +21,16 @@ a {
 	text-decoration: none;
 	color: inherit;
 }
+
+::-webkit-scrollbar {
+	width: 0.6rem;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #dddddd;
+}
+
+::-webkit-scrollbar-button{
+	background-color: #eeeeee;
+	max-height: 5px;
+}
