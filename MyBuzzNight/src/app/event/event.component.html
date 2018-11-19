@@ -1,4 +1,4 @@
-<mat-toolbar *ngIf="myEvent" color="primary">
+<mat-toolbar *ngIf="myEvent" fxLayout="row wrap" color="primary">
 	<span> {{myEvent.name}} </span>
 	<span> {{myEvent.address}} </span>
 	<span> {{myEvent.date}} </span>
@@ -19,7 +19,7 @@
 <form #form>
 	<input style="display: none" #input type="file" (change)="sendImage($event.target.files)" accept="image/*" multiple/>
 	<button mat-flat-button color="primary" (click)="input.click()">
-		<mat-icon> send </mat-icon>
 		Send photos
+		<mat-icon> send </mat-icon>
 	</button>
 </form>

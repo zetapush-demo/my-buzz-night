@@ -10,6 +10,7 @@ header {
 	z-index: 10;
 	background: white;
 	box-shadow: 0 7px 8px rgba(0, 0, 0, 0.12);
+	display: flex;
 }
 
 header::after {
@@ -23,14 +24,14 @@ header::after {
 }
 
 .home_button {
-	position: absolute;
-	left: 0;
-	margin: 10px 0 0 10px;
+	padding: 10px 0 0 10px;
 	height: 80%;
 }
 
 h1 {
-	margin: $header_height / 4 auto 0 auto;
+	font-size: 2rem;
+	flex: 1;
+	margin: auto;
 }
 
 mat-spinner {

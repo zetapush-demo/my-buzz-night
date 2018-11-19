@@ -7,11 +7,10 @@ h1 {
 }
 
 .messages {
-	padding-bottom: 80px;
+	padding-bottom: 110px;
 
 	mat-card {
 		margin: 8px;
-		text-align: center;
 
 		mat-card-content {
 			display: flex !important;
@@ -40,5 +39,6 @@ form {
 		margin: 20px 10px;
 		padding: 20px 10px;
 		width: calc(100% - 20px);
+		font-size: 2rem;
 	}
 }
