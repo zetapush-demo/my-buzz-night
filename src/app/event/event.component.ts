@@ -36,7 +36,7 @@ export class EventComponent implements OnInit {
 	}
 
 	async ngOnInit() {
-		this.eventID = window.location.pathname.split('/')[2];
+		this.eventID = window.location.href.split('/').pop();
 		const eventData: joinEventResponse = await this.workerService.joinEvent(this.eventID);
 
 		if (eventData) {

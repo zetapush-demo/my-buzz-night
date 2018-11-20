@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { environment } from 'src/environments/environment';
+
 import { CreateEventComponent } from './create-event/create-event.component';
 import { JoinEventComponent } from './join-event/join-event.component';
 import { EventComponent } from './event/event.component';
@@ -15,7 +17,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-	imports: [RouterModule.forRoot(routes)],
+	imports: [RouterModule.forRoot(routes, { useHash: environment.useHash })],
 	exports: [RouterModule]
 })
 export class AppRoutingModule { }

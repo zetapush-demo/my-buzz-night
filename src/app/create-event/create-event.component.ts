@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { environment } from 'src/environments/environment';
 import { MyEvent, WorkerService } from '../worker.service';
+
 
 @Component({
 	selector: 'app-create-event',
@@ -44,7 +47,10 @@ export class CreateEventComponent implements OnInit {
 
 	async createEvent() {
 		this.eventID = await this.workerService.createEvent(this.myEvent);
-		this.eventUrl = `${window.location.origin}/event/${this.eventID}`;
+		if (environment.useHash)
+			this.eventUrl = `${window.location.origin}${window.location.pathname}#/event/${this.eventID}`;
+		else
+			this.eventUrl = `${window.location.origin}/event/${this.eventID}`;
 		console.log('eventID: ', this.eventID);
 	}
 
