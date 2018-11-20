@@ -26,8 +26,8 @@ export class WorkerService {
 
 	constructor() {
 		this.client = new WeakClient({
-			platformUrl: 'https://celtia.zetapush.com/zbo/pub/business',
-			appName: 'OTNDAKpr'
+			platformUrl: 'http://hq.zpush.io:9080/zbo/pub/business/',
+			appName: 'pumj9v7yg'
 		});
 		this.api = this.client.createProxyTaskService();
 	}
