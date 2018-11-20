@@ -47,7 +47,7 @@
 			<div>
 				<button mat-raised-button matStepperPrevious color="primary"> Back </button>
 				<button mat-raised-button matStepperNext color="primary"
-						(click)="myEvent.date = format_date()"
+						(click)="myEvent.date = formatDate()"
 						[disabled]="!dateFormGroup.value.dateCtrl || !dateFormGroup.value.hourCtrl"
 				> Next </button>
 			</div>
@@ -71,7 +71,7 @@
 		<div>
 			<button mat-raised-button matStepperPrevious color="primary"> Back </button>
 			<button mat-raised-button color="primary"
-					(click)="create_event()"
+					(click)="createEvent()"
 					[disabled]="!myEvent.name || !myEvent.address || !myEvent.date"
 			> Create </button>
 		</div>

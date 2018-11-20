@@ -28,21 +28,21 @@ export class CreateEventComponent implements OnInit {
 		private workerService: WorkerService
 	) {}
 
-	format_date() {
+	formatDate() {
 		if (!this.dateFormGroup.value.dateCtrl)
 			return;
-		const date_timestamp = Date.parse(this.dateFormGroup.value.dateCtrl);
-		const hour_timestamp = 1000 * 60 * 60 * (this.dateFormGroup.value.hourCtrl || 0);
-		const tmp = new Date(date_timestamp + hour_timestamp);
+		const dateTimestamp = Date.parse(this.dateFormGroup.value.dateCtrl);
+		const hourTimestamp = 1000 * 60 * 60 * (this.dateFormGroup.value.hourCtrl || 0);
+		const tmp = new Date(dateTimestamp + hourTimestamp);
 		const d = tmp.getDate();
 		const m = tmp.getMonth() + 1; // January is 0!
 		const y = tmp.getFullYear();
-		const hours_minutes = tmp.toString().split(' ')[4];
+		const hoursMinutes = tmp.toString().split(' ')[4];
 
-		return `${d < 10 ? '0' + d : d}-${m < 10 ? '0' + m : m}-${y} ${hours_minutes}`;
+		return `${d < 10 ? '0' + d : d}-${m < 10 ? '0' + m : m}-${y} ${hoursMinutes}`;
 	}
 
-	async create_event() {
+	async createEvent() {
 		this.eventID = await this.workerService.createEvent(this.myEvent);
 		this.eventUrl = `${window.location.origin}/event/${this.eventID}`;
 		console.log('eventID: ', this.eventID);
