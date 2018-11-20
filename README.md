@@ -1,5 +1,7 @@
 # ZetaPush Celtia Example
 
+MyBuzzNight allows people to share photos in real time inside a private and ephemeral social network.
+
 ## Installation
 
 ```console
@@ -29,8 +31,6 @@ npm run start
 └──
   ├── src
   │  └── // Angular application
-  ├── front
-  │  └── // Angular builted application
   ├── worker
   │  └── index.ts (api implementation)
   └── package.json
