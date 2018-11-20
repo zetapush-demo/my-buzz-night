@@ -27,9 +27,10 @@ npm run start
 ```console
 .
 └──
-  ├── public
-  │  ├── index.html
-  │  └── index.js
+  ├── src
+  │  └── // Angular application
+  ├── front
+  │  └── // Angular builted application
   ├── worker
   │  └── index.ts (api implementation)
   └── package.json
