@@ -79,7 +79,7 @@ export default class Api {
 			return null;
 		return {
 			event: result.content.pop(), // event information at the top of stack
-			messages: result.content.reverse().map(x => { // the rest of the stack contains messages
+			messages: result.content.map(x => { // the rest of the stack contains messages
 				return {
 					data: x.data.url,
 					ts: x.ts
