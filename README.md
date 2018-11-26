@@ -29,8 +29,7 @@ npm run start
 ```console
 .
 └──
-  ├── src
-  │  └── // Angular application
+  ├── src (Angular application)
   ├── worker
   │  └── index.ts (api implementation)
   └── package.json
