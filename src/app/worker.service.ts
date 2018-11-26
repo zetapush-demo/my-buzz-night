@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import { WeakClient, ProxyService } from '@zetapush/client';
-import { Messaging, StackItem, FileUploadLocation, ListingEntryInfo } from '@zetapush/platform-legacy';
+import { Messaging, StackItem, FileUploadLocation } from '@zetapush/platform-legacy';
 
 export interface MyEvent {
 	name: string;

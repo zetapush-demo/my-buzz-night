@@ -45,7 +45,7 @@ export class EventComponent implements OnInit {
 				this.messages.push(this.filterInputMessage(x));
 			});
 			this.workerService.observer.subscribe(
-				(data: StackItem) => this.messages.push(this.filterInputMessage(data))
+				(data: StackItem) => this.messages.unshift(this.filterInputMessage(data))
 			);
 		} else
 			this.router.navigate(['/join']);
