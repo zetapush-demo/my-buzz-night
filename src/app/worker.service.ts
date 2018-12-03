@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
-import { WeakClient, ProxyService } from '@zetapush/client';
+import { WeakClient, ProxyTaskService } from '@zetapush/client';
 import { Messaging, StackItem, FileUploadLocation } from '@zetapush/platform-legacy';
 
 export interface MyEvent {
@@ -21,7 +21,7 @@ export interface joinEventResponse {
 export class WorkerService {
 
 	client: WeakClient;
-	api: ProxyService;
+	api: ProxyTaskService;
 	observer: Subject<any> = new Subject();
 
 	constructor() {
