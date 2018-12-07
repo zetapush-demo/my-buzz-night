@@ -38,7 +38,7 @@ export default class Api {
 		return Math.random().toString(36).substring(2);
 	}
 
-	async isEventExists(eventID: string) {
+	async isEventExists(eventID: string): Promise<boolean> {
 		const { exists } = await this.groups.exists({
 			group: eventID
 		});
@@ -46,7 +46,12 @@ export default class Api {
 		return exists;
 	}
 
-	async createEvent(event: MyEvent): Promise<string> {
+	/*
+	 * Create event if it doesn't already exist by generating new eventID.
+	 * With this eventID, create group to users and stack to store data.
+	 */
+
+	 async createEvent(event: MyEvent): Promise<string> {
 		const eventID = this.generateEventID();
 		const exists = await this.isEventExists(eventID);
 
@@ -61,6 +66,11 @@ export default class Api {
 		});
 		return eventID;
 	}
+
+	/*
+	 * Join the event by adding the user to the event and get the list
+	 * of messages previously sended.
+	 */
 
 	async joinEvent(eventID: string): Promise<joinEventResponse> {
 		const exists = await this.isEventExists(eventID);
@@ -88,6 +98,11 @@ export default class Api {
 		};
 	}
 
+	/*
+	 * Send message on channel refering to eventID,
+	 * and push to image url to stack.
+	 */
+
 	async sendMessage(input: {eventID: string, url: any}) {
 		const group: GroupUsers = await this.groups.groupUsers({
 			group: input.eventID
@@ -112,6 +127,11 @@ export default class Api {
 		});
 	}
 
+	/*
+	 * Check if the image has not already been upload on filesystem,
+	 * if so, delete it, and ask for a upload URL.
+	 */
+
 	async getImageUploadURL(input: {eventID: string, name: string, type: string, ts: number}): Promise<FileUploadLocation> {
 		const path = `/${input.eventID}_${this.requestContext.owner}_${input.name}_${input.ts}`;
 		const file = await this.hdfs.stat({ path });
@@ -123,6 +143,10 @@ export default class Api {
 			path
 		});
 	}
+
+	/*
+	 * From image guid, get image url from filesystem
+	 */
 
 	async getImageURL(guid: string): Promise<string> {
 		const request = await this.hdfs.newFile({
