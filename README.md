@@ -1,11 +1,17 @@
 # ZetaPush Celtia Example
 
-MyBuzzNight allows people to share photos in real time inside a private and ephemeral social network.
+my-buzz-night allows people to share photos in real time inside a private and ephemeral social network.
 
 ## Installation
 
 ```console
 npm install
+```
+
+## Angular build
+
+```console
+npm run build -- --prod
 ```
 
 ## Deployment
