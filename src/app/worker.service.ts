@@ -32,16 +32,6 @@ export class WorkerService {
 		this.api = this.client.createProxyTaskService();
 	}
 
-	async workerConnect() {
-		await this.client.connect();
-	}
-
-	async createEvent(event: MyEvent): Promise<string> {
-		const eventID: string = await this.api.createEvent(event) as string;
-
-		return eventID;
-	}
-
 	async joinEvent(eventID: string): Promise<joinEventResponse> {
 		const eventData = await this.api.joinEvent(eventID) as joinEventResponse;
 

@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
 	) {}
 
 	async ngOnInit() {
-		await this.workerService.workerConnect();
+		await this.workerService.client.connect();
 		this.ready = true;
 	}
 }

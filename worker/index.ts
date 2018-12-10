@@ -38,14 +38,6 @@ export default class Api {
 		return Math.random().toString(36).substring(2);
 	}
 
-	async isEventExists(eventID: string): Promise<boolean> {
-		const { exists } = await this.groups.exists({
-			group: eventID
-		});
-
-		return exists;
-	}
-
 	/*
 	 * Create event if it doesn't already exist by generating new eventID.
 	 * With this eventID, create group to users and stack to store data.
@@ -53,7 +45,7 @@ export default class Api {
 
 	 async createEvent(event: MyEvent): Promise<string> {
 		const eventID = this.generateEventID();
-		const exists = await this.isEventExists(eventID);
+		const { exists } = await this.groups.exists({ group: eventID });
 
 		if (exists)
 			return this.createEvent(event);
@@ -73,7 +65,7 @@ export default class Api {
 	 */
 
 	async joinEvent(eventID: string): Promise<joinEventResponse> {
-		const exists = await this.isEventExists(eventID);
+		const { exists } = await this.groups.exists({ group: eventID });
 
 		if (!exists)
 			return null;
@@ -88,7 +80,7 @@ export default class Api {
 		if (!result || !result.content.length)
 			return null;
 		return {
-			event: result.content.pop(), // event information at the top of stack
+			event: result.content.pop(), // event information at the bottom of stack
 			messages: result.content.map(x => { // the rest of the stack contains messages
 				return {
 					data: x.data.url,
@@ -113,7 +105,7 @@ export default class Api {
 			ts: Date.now()
 		}
 
-		console.log('message:', data);
+		console.log('message:', data); // worker will log all message in terminal
 		this.messaging.send({
 			channel: eventID,
 			target: users,
@@ -147,10 +139,10 @@ export default class Api {
 	 */
 
 	async getImageURL(guid: string): Promise<string> {
-		const request = await this.hdfs.newFile({
+		const { url } = await this.hdfs.newFile({
 			guid
 		});
 
-		return request.url.url;
+		return url.url;
 	}
 }
