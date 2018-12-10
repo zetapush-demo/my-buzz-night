@@ -65,7 +65,7 @@ private generateEventID(): string {
 }
 ```
 
-- Create event if it doesn't already exist by generating new eventID. With this eventID, create group to users and stack to store data. Bottom of the stack will represent the details of the event.
+- Create event if it doesn't already exist by generating new eventID. With this eventID, create group to users and a stack to store data. Stack's tail will represent the details of the event.
 
 ```js
 async createEvent(event: MyEvent): Promise<string> {
@@ -128,7 +128,7 @@ async sendMessage(eventID: string, url: any) {
         ts: Date.now()
     }
 
-    console.log('message:', data); // worker will log all message in terminal
+    console.log('message:', data); // worker will log all messages in terminal
     this.messaging.send({
         channel: eventID,
         target: users,
@@ -141,10 +141,11 @@ async sendMessage(eventID: string, url: any) {
 }
 ```
 
-- Check if the image has not already been upload on filesystem, if so, delete it, and ask ZetaPush platform for a upload URL.
+- Check if the image has not already been uploaded on filesystem, if so, delete it, and ask ZetaPush platform for an upload URL.
 
 ```js
 async getImageUploadURL(eventID: string, name: string, type: string): Promise<FileUploadLocation> {
+    /* complex path on filesystem to avoid same filename */
     const path = `/${eventID}_${this.requestContext.owner}_${name}_${Date.now()}`;
     const file = await this.hdfs.stat({ path });
 
@@ -157,7 +158,7 @@ async getImageUploadURL(eventID: string, name: string, type: string): Promise<Fi
 }
 ```
 
-- From image guid, get image url from filesystem
+- From image GUID, get image URL from filesystem
 
 ```js
 async getImageURL(guid: string): Promise<string> {
@@ -209,7 +210,7 @@ In this worker class :
 ## Writing UI and worker interaction
 -------------------------------------------------------------------------------
 
-You are free to implement your own UI so we won't explain how to code a form thats asks for a name, date and event location, or a button that calls function on click with HTML/CSS (you can steal our UI to quickly finish this tutorial).
+You are free to implement your own UI so we won't explain how to code a form that asks for a name, date and event location, or a button that calls function on click with HTML/CSS (you can steal our UI to quickly finish this tutorial).
 
 We choose [Angular](https://angular.io) to develop our front but you can follow this tutorial with another framework.
 
@@ -229,7 +230,7 @@ Now, with `api`, you can call worker-side methods (respecting its name).
 For exemple : if you have a worker-side `foo()` method, just call `api.foo()` on the front side. Same way if you have a worker-side `bar(id, name)` method that take parameters, just call `api.bar(42, 'Person')`, and parameters are transmitted.
 
 - Call `joinEvent` method at worker-side to get messages history and details of the event.
-- Create service to listen incoming messages on the channel [eventID] from the worker.
+- Create service to listen incoming messages on the channel 'eventID' from the worker.
 
 ```js
 /* Call me after parsing URL to get eventID : http://localhost:4200/#/event/<eventID> */
