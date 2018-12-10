@@ -57,16 +57,15 @@ export class WorkerService {
 	}
 
 	async sendImage(eventID: string, file: File) {
-		const transfer: FileUploadLocation = await this.api.getImageUploadURL({
+		const transfer: FileUploadLocation = await this.api.getImageUploadURL(
 			eventID,
-			name: file.name,
-			type: file.type,
-			ts: Date.now()
-		});
+			file.name,
+			file.type
+		);
 
 		await this.upload(transfer, file);
 		const url = await this.api.getImageURL(transfer.guid);
-		await this.api.sendMessage({ eventID, url });
+		await this.api.sendMessage(eventID, url);
 	}
 
 	private async upload(transfer: FileUploadLocation, file: File) {

@@ -103,27 +103,25 @@ export default class Api {
 	 * and push to image url to stack.
 	 */
 
-	async sendMessage(input: {eventID: string, url: any}) {
+	async sendMessage(eventID: string, url: any) {
 		const group: GroupUsers = await this.groups.groupUsers({
-			group: input.eventID
+			group: eventID
 		});
 		const users: string[] = group.users || [];
 		const data: StackItem = {
-			data: input.url,
+			data: url,
 			ts: Date.now()
 		}
 
 		console.log('message:', data);
 		this.messaging.send({
-			channel: input.eventID,
+			channel: eventID,
 			target: users,
-			data: data
+			data
 		});
 		await this.stack.push({
-			stack: input.eventID,
-			data: {
-				url: input.url
-			}
+			stack: eventID,
+			data: { url }
 		});
 	}
 
@@ -132,14 +130,14 @@ export default class Api {
 	 * if so, delete it, and ask for a upload URL.
 	 */
 
-	async getImageUploadURL(input: {eventID: string, name: string, type: string, ts: number}): Promise<FileUploadLocation> {
-		const path = `/${input.eventID}_${this.requestContext.owner}_${input.name}_${input.ts}`;
+	async getImageUploadURL(eventID: string, name: string, type: string): Promise<FileUploadLocation> {
+		const path = `/${eventID}_${this.requestContext.owner}_${name}_${Date.now()}`;
 		const file = await this.hdfs.stat({ path });
 
 		if (file.entry)
 			await this.hdfs.rm({ path });
 		return await this.hdfs.newUploadUrl({
-			contentType: input.type,
+			contentType: type,
 			path
 		});
 	}
