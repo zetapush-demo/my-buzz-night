@@ -1,5 +1,5 @@
 import { Messaging, Groups, GroupUsers, Stack, StackItem, Zpfs_hdfs, FileUploadLocation } from '@zetapush/platform-legacy';
-import { Injectable, Context } from '@zetapush/core';
+import { Injectable, RequestContext } from '@zetapush/core';
 
 export interface MyEvent {
 	name: string;
@@ -21,7 +21,7 @@ HACK.DEPLOYMENT_OPTIONS = {
 @Injectable()
 export default class Api {
 
-	private requestContext: Context;
+	private requestContext: RequestContext;
 
 	constructor(
 		private messaging: Messaging,
